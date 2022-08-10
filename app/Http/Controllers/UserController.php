@@ -15,12 +15,11 @@ class UserController extends Controller
         return view('users',compact('users'));
     }
 
-    public function send()
+    public function send(Request $request)
     {
-        $users = Users::first();
-        $email = $users->email;
-        Mail::to( $email )->send(new Contact());
-        return redirect()->route('user.index')->with('success','Mail Sent!!!');
+        Mail::to( $request->email )->send(new Contact());
+        return "ok";
     }
 
+    
 }

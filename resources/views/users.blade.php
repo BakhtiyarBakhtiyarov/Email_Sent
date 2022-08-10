@@ -37,7 +37,7 @@
                 <td>{{ $user->firstname }}</td>
                 <td>{{ $user->lastname }}</td>
                 <td>{{ $user->email }}</td>
-                <td> <button  type="submit" class="btn waves-effect waves-light btn-danger">Send</button></td>
+                <td> <button onclick="SendEmail('{{$user->email}}')" type="button" class="btn waves-effect waves-light btn-danger">Send</button></td>
             </tr>
             @endforeach
             </tbody>
@@ -46,9 +46,11 @@
     </div>
     
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
         <script>
-            function Send(email) {
+            function SendEmail(email) {
+                console.log(email)
                 swal({
                     title: "Warning",
                     text: "Are you sure?",
@@ -61,8 +63,8 @@
                         if (willSend) {
                             $.ajax({
                                 url: "{{ route('send.email') }}",
-                                data: { "_token": "{{ csrf_token() }}", mail:mail },
-                                method: "POST",
+                                data: { "_token": "{{ csrf_token() }}", email:email },
+                                type: "POST",
                                 success: function (data) {
                                     if(data==="ok"){
                                         swal("Success!", "Email Sent!", "success");
